@@ -1,0 +1,1 @@
+web: gunicorn --bind 0.0.0.0:$PORT projet_employe.wsgi:application
