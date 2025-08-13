@@ -1,0 +1,13 @@
+{% extends "employe/base.html" %}
+
+
+{% block content %}
+<form method="POST" class="space-y-4 flex flex-col">
+    <span class="text-center">Confirmer la suppression de l'employé <strong>{{ employe.nom }} {{ employe.prenom }} </strong>?</span>
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-error">Confirmer</button>
+    <a href="{% url 'ajouter_employe' %}" class="btn btn-primary w-full">Annuler</a>  
+
+</form>
+{% endblock %} 
