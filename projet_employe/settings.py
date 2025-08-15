@@ -28,8 +28,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# Pour le développement, il est fortement recommandé de mettre DEBUG = True
+# pour obtenir des pages d'erreur détaillées. Mettez-le à False en production.
+DEBUG = True
 
+# En développement, ['*'] est acceptable. En production, vous devriez lister
+# explicitement vos domaines autorisés. Par exemple : ['mon-domaine.com']
 ALLOWED_HOSTS = ['*']
 
 

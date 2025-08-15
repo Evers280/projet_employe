@@ -6,8 +6,29 @@ def liste_employes(request):
     employes = Employe.objects.all()
     return render(request, 'employe/liste.html', {'employes': employes})
 
+
+def inscription_employe_drh(request):
+    est_drh = True
+    
+    if request.method == 'POST':
+        form = EmployeForm(request.POST, drh=est_drh)
+        if form.is_valid():
+            employe = form.save(commit=False)
+            employe.drh = True
+            employe.poste = "DRH"
+            employe.save()
+            return redirect('liste_employes')
+    else:
+        form = EmployeForm(drh=est_drh)
+    
+    context = {'form': form}
+    return render(request, 'employe/formulaire.html', context)
+
+
 def ajouter_employe(request):  
-    form = EmployeForm(request.POST or None)
+    
+    est_drh = False
+    form = EmployeForm(request.POST or None, drh=est_drh)
     if form.is_valid():
         form.save()
         return redirect('liste_employes')
@@ -16,7 +37,8 @@ def ajouter_employe(request):
 
 def modifier_employe(request, id):
     employe = get_object_or_404(Employe, id=id)
-    form = EmployeForm(request.POST or None, instance=employe)
+    est_drh = True  # ou False, selon la logique métier
+    form = EmployeForm(request.POST or None, instance=employe, drh=est_drh)
     if form.is_valid():
         form.save()
         return redirect('liste_employes')

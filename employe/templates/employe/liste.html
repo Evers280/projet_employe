@@ -13,12 +13,19 @@
 
           <div class="space-y-2">
             <p class="font-bold text-lg">{{emp.nom}}  {{emp.prenom}}</p>
-            <p class="btn btn-outline btn-primary">{{emp.email}}</p>
+            <p class="text-sm text-gray-500">Âge: {{emp.age}} ans  - Sexe: {{emp.sexe}}</p>
+            <p class="btn btn-outline btn-primary">{{emp.email}} {{emp.telephone}}</p>
 
             <div class="flex gap-2">
               <p class="btn btn-soft btn-primary">{{emp.poste}}</p>
               <p class="btn btn-dash btn-primary">{{emp.salaire}} Fcfa</p>
             </div>
+
+            <div class="text-sm text-gray-500">
+              <p>Date d'embauche: {{emp.date_embauche}}</p>
+              <p>DRH: {{emp.drh}}</p>
+            </div>
+
           </div>
 
           <div class="space-x-2">
