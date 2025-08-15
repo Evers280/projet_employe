@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('employe.urls')),  # Inclure les URLs de l'application employe 
+    path('Gestploided/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('Gestploided/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

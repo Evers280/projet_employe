@@ -1,34 +1,8 @@
-asgiref==3.9.1 #permet de gérer les appels asynchrones
-dj-database-url==3.0.1  #pour configurer la base de données via une URL
-Django==5.2.5 #le framework web
-djangorestframework==3.16.0 #pour créer des API RESTful
-drf-yasg==1.21.10 #pour générer de la documentation Swagger pour les API
-inflection==0.5.1 #pour manipuler les noms de classes et de champs
-packaging==25.0 #pour gérer les versions de paquets
-python-dotenv==1.1.1  #pour charger les variables d'environnement depuis un fichier .env
-psycopg2-binary==2.9.10 #pour interagir avec PostgreSQL
-pytz==2025.2 #pour gérer les fuseaux horaires
-PyYAML==6.0.2 #pour lire et écrire des fichiers YAML
-sqlparse==0.5.3 #pour analyser les requêtes SQL
-uritemplate==4.2.0  #pour manipuler les URI
 asgiref==3.9.1
 dj-database-url==3.0.1
 Django==5.2.5
 djangorestframework==3.16.0
-drf-yasg==1.21.10
-inflection==0.5.1
-packaging==25.0
-psycopg2-binary==2.9.10
-python-dotenv==1.1.1
-pytz==2025.2
-PyYAML==6.0.2
-sqlparse==0.5.3
-uritemplate==4.2.0
-whitenoise==6.9.0
-asgiref==3.9.1
-dj-database-url==3.0.1
-Django==5.2.5
-djangorestframework==3.16.0
+djangorestframework-simplejwt==5.3.1
 drf-yasg==1.21.10
 gunicorn==23.0.0
 inflection==0.5.1
@@ -38,5 +12,29 @@ python-dotenv==1.1.1
 pytz==2025.2
 PyYAML==6.0.2
 sqlparse==0.5.3
+uritemplate==4.2.0
+whitenoise==6.9.0asgiref==3.9.1
+attrs==25.3.0
+dj-database-url==3.0.1
+Django==5.2.5
+djangorestframework==3.16.0
+djangorestframework-simplejwt==5.3.1
+drf-spectacular==0.28.0
+drf-spectacular-sidecar==2025.8.1
+drf-yasg==1.21.10
+gunicorn==23.0.0
+inflection==0.5.1
+jsonschema==4.25.0
+jsonschema-specifications==2025.4.1
+packaging==25.0
+psycopg2-binary==2.9.10
+PyJWT==2.10.1
+python-dotenv==1.1.1
+pytz==2025.2
+PyYAML==6.0.2
+referencing==0.36.2
+rpds-py==0.27.0
+sqlparse==0.5.3
+typing_extensions==4.14.1
 uritemplate==4.2.0
 whitenoise==6.9.0

@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+# settings.py
 
+from datetime import timedelta #pour gérer les durées, notamment pour les tokens JWT
 from pathlib import Path #pour permettre de travailler avec les chemins de fichiers de manière indépendante du système d'exploitation
 import os #pour interagir avec le système d'exploitation, notamment pour accéder aux variables d'environnement
 import dj_database_url #pour gérer les connexions à la base de données, notamment pour les bases de données hébergées sur des services externes
@@ -48,8 +50,24 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'employe',
 ]
+
+
+# Configure le REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+# Configure le JWT
+SIMPLE_JWT = {
+   "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1200),  # Durée de vie du token d'accès
+   "REFRESH_TOKEN_LIFETIME": timedelta(days=365),   # Durée de vie du token de rafraîchissement
+}
+
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Middleware pour servir les fichiers statiques
