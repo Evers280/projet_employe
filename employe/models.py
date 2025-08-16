@@ -11,12 +11,13 @@ class Employe(models.Model):
     # Relation OneToOne avec le modèle User de Django
     utilisateur = models.ForeignKey(User, on_delete=models.CASCADE)
     
+    
     nom = models.CharField(max_length=100)
     prenom = models.CharField(max_length=100)
     age = models.PositiveIntegerField(default=25)
-    sexe = models.CharField(max_length=10, choices=[('M', 'Masculin'), ('F', 'Féminin')], default='F')
+    sexe = models.CharField(max_length=10, choices=[('M', 'Masculin'), ('F', 'Féminin')])
     email = models.EmailField(unique=True)
-    numero_telephone = models.CharField(max_length=15, unique=False, default='0777777777')
+    numero_telephone = models.CharField(max_length=15, unique=True)
     poste = models.CharField(max_length=100)
     salaire = models.DecimalField(max_digits=10, decimal_places=2)
     date_embauche = models.DateField(auto_now_add=True)

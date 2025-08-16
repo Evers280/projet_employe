@@ -38,6 +38,7 @@ def inscription_employe_drh(request):
             employe.drh = True
             employe.poste = "DRH"
             employe.save()
+            login(request, employe.utilisateur)
             return redirect('liste_employes')
     else:
         form = EmployeForm(drh=est_drh)
@@ -48,7 +49,7 @@ def inscription_employe_drh(request):
 
 @login_required
 def liste_employes(request):
-    employes = Employe.objects.all()
+    employes = Employe.objects.filter(utilisateur=request.user)
     return render(request, 'employe/liste.html', {'employes': employes})
 
 
@@ -59,6 +60,9 @@ def ajouter_employe(request):
     est_drh = False
     form = EmployeForm(request.POST or None, drh=est_drh)
     if form.is_valid():
+        employe = form.save(commit=False)
+        # On attribue l'utilisateur actuel comme propriétaire
+        employe.utilisateur = request.user
         form.save()
         return redirect('liste_employes')
     return render(request, 'employe/formulaire.html', {'form': form})
