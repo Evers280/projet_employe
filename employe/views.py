@@ -3,27 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Employe
 from .forms import EmployeForm
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import LoginForm
 
-class LoginView(TokenObtainPairView):
-    template_name = 'employe/login.html'
-
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == 200:
-            # The user is authenticated by DRF, you can now log them in to Django's session.
-            # Note: this part is tricky because TokenObtainPairView does not return the user object.
-            # We need to re-authenticate to get the user object.
-            # This is not ideal, but it's a common approach.
-            user = authenticate(username=request.data['username'], password=request.data['password'])
-            if user is not None:
-                login(request, user)
-                # Redirect to a success page.
-                return HttpResponseRedirect(reverse('liste_employes'))
-        return response
 
 def login_page(request):
     form = LoginForm()
@@ -59,7 +43,7 @@ def inscription_employe_drh(request):
         form = EmployeForm(drh=est_drh)
     
     context = {'form': form}
-    return render(request, 'employe/formulaire.html', context)
+    return render(request, 'employe/inscription.html', context)
 
 
 @login_required
@@ -98,3 +82,7 @@ def supprimer_employe(request, id):
         employe.delete()
         return redirect('liste_employes')
     return render(request, 'employe/confirmer_suppression.html', {'employe': employe})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

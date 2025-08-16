@@ -1,0 +1,52 @@
+{% extends "employe/base.html" %}
+
+
+{% block content %}
+
+  <h1 class="text-3xl font-bold mb-6">
+    {% if form.instance.pk %}
+      Modifier l'employé
+    {% else %}
+      S'inscrire en tant que DRH
+    {% endif %}
+  </h1>
+
+  <form method="POST" class="space-y-6">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">
+        <ul>
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% for field in form %}
+      <div class="form-control">
+        <label for="{{ field.id_for_label }}" class="label">
+          <span class="label-text">{{ field.label }}</span>
+        </label>
+        {{ field }}
+        {% if field.help_text %}
+          <div class="label">
+            <span class="label-text-alt">{{ field.help_text|safe }}</span>
+          </div>
+        {% endif %}
+        {% for error in field.errors %}
+          <div class="label">
+            <span class="label-text-alt text-error">{{ error }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    <div class="flex justify-end gap-4 pt-4">
+        <a href="{% url 'login' %}" class="btn">Annuler</a>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </div>
+  </form>
+
+{% endblock %} 

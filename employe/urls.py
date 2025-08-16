@@ -1,8 +1,5 @@
 from django.urls import path
 from .import views 
-from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-)
 
 urlpatterns = [
     path('liste des employés/', views.liste_employes, name='liste_employes'),  # URL pour la liste des employés  
@@ -11,6 +8,6 @@ urlpatterns = [
     path('modifier/<int:id>/', views.modifier_employe, name='modifier_employe'),  # URL pour modifier un employé
     path('supprimer/<int:id>/', views.supprimer_employe, name='supprimer_employe'),  # URL pour supprimer un employé
     path('', views.login_page, name='login'),
-    path('Gestploided/token/', views.LoginView.as_view(), name='token_obtain_pair'),
-    path('apGestploided/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('logout/', views.logout_view, name='logout'),
+
 ]

@@ -11,6 +11,11 @@
 </head>
 
 <body>
+{% if user.is_authenticated %}
+<div class="w-full flex justify-end p-4">
+  <a href="{% url 'logout' %}" class="btn">Déconnexion</a>
+</div>
+{% endif %}
 <div class="flex justify-center mt-32">
     <div  class="flex flex-col w-3xl bg-base-200 rounded-xl p-6">
         <div class="w-full h-fit">
