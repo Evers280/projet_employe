@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import LoginForm
+from entreprise.models import entreprises
 
 
 def login_page(request):
@@ -21,7 +22,7 @@ def login_page(request):
             )
             if user is not None:
                 login(request, user)
-                return redirect('liste_employes')
+                return redirect('home')
             else:
                 message = 'Identifiants invalides.'
     return render(request, 'employe/login.html', context={'form': form, 'message': message})
@@ -39,7 +40,7 @@ def inscription_employe_drh(request):
             employe.poste = "DRH"
             employe.save()
             login(request, employe.utilisateur)
-            return redirect('liste_employes')
+            return redirect('home')
     else:
         form = EmployeForm(drh=est_drh)
     
@@ -49,8 +50,12 @@ def inscription_employe_drh(request):
 
 @login_required
 def liste_employes(request):
-    employes = Employe.objects.filter(utilisateur=request.user)
-    return render(request, 'employe/liste.html', {'employes': employes})
+    try:
+        entreprise = entreprises.objects.get(utilisateur=request.user)
+        employes = Employe.objects.filter(utilisateur=request.user)
+        return render(request, 'employe/liste.html', {'employes': employes, 'entreprise_existe': True})
+    except entreprises.DoesNotExist:
+        return render(request, 'employe/liste.html', {'entreprise_existe': False})
 
 
 

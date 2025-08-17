@@ -3,10 +3,10 @@
 
 {% block content %}
 <form method="POST" class="space-y-4 flex flex-col">
-    <span class="text-center">Confirmer la suppression de l'employé <strong>{{ employe.nom }} {{ employe.prenom }} </strong>?</span>
+    <span class="text-center">Confirmer la suppression de l'employé <strong>"{{ employe.nom }} {{ employe.prenom }}"</strong>?</span>
     {% csrf_token %}
 
-    <button type="submit" class="btn btn-error">Confirmer</button>
+    <button type="submit text-white-500" class="btn btn-error">Confirmer</button>
     <a href="{% url 'liste_employes' %}" class="btn btn-primary w-full">Annuler</a>  
 
 </form>

@@ -23,7 +23,8 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('employe.urls')),  # Inclure les URLs de l'application employe 
+    path('', include('employe.urls')),  # Inclure les URLs de l'application employe
+    path('entreprise/', include('entreprise.urls')),  # Inclure les URLs de l'application entreprise
     path('Gestploided/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('Gestploided/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

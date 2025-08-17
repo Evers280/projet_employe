@@ -11,25 +11,6 @@
 </head>
 
 <body>
-<div class="navbar bg-base-100">
-  <div class="navbar-start">
-    <a href="{% url 'home' %}" class="btn btn-ghost text-xl">Gest-Ploided</a>
-  </div>
-  <div class="navbar-center">
-    <ul class="menu menu-horizontal px-1 space-x-8">
-      <li><a href="{% url 'profile_entreprise' %}">Profile de l'entreprise</a></li>
-      <li><a href="{% url 'services_view' %}">Services</a></li>
-      <li><a href="{% url 'liste_employes' %}">Liste des employes</a></li>
-    </ul>
-  </div>
-  <div class="navbar-end">
-    {% if user.is_authenticated %}
-      <a href="{% url 'logout' %}" class="btn">Déconnexion</a>
-    {% else %}
-      <a href="{% url 'login' %}" class="btn">Connexion</a>
-    {% endif %}
-  </div>
-</div>
 <div class="flex justify-center mt-32">
     <div  class="flex flex-col w-3xl bg-base-200 rounded-xl p-6">
         <div class="w-full h-fit">

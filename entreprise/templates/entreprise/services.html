@@ -1,0 +1,8 @@
+{% extends 'entreprise/base.html' %}
+
+{% block content %}
+<div class="text-center">
+    <p>Aucune entreprise trouvée, veuillez d'abord créer une entreprise.</p>
+    <a href="{% url 'creation_entreprise' %}" class="text-green-500">Créer une entreprise</a>
+</div>
+{% endblock %}

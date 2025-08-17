@@ -1,0 +1,16 @@
+{% extends 'entreprise/base.html' %}
+
+{% block content %}
+<form method="post" action="{% url 'creation_service' entreprise.id %}" class="space-y-4 flex flex-col">
+    {% csrf_token %}
+    {{ form.nom_service }}
+    {{ form.numero_service }}
+    {{ form.email_service}}
+    {{ form.budget_annuel }}
+    {{ form.objectifs_service }}
+
+    <button type="submit", class="btn btn-primary btn-soft ">Enregistrer</button>
+    <a href="{% url 'liste_services' entreprise.id %}" class="btn btn-primary w-full">Annuler</a>  
+    
+</form>
+{% endblock %}

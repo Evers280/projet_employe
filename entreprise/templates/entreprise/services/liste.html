@@ -1,0 +1,29 @@
+{% extends 'entreprise/base.html' %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Liste des services pour {{ entreprise.nom_entreprise }}</h2>
+<div class="mb-4">
+    <a href="{% url 'creation_service' entreprise.id %}" class="btn btn-primary">Créer un nouveau service</a>
+</div>
+{% if services %}
+    <div class="space-y-4">
+        {% for service in services %}
+            <div class="p-4 bg-base-100 rounded-lg flex justify-between items-center">
+                <div>
+                    <p class="font-bold text-lg">{{ service.nom_service }}</p>
+                    <p class="text-sm text-gray-500">Numéro: {{ service.numero_service }}</p>
+                    <p class="text-sm text-gray-500">Email: {{ service.email_service }}</p>
+                    <p class="text-sm text-gray-500">Budget annuel: {{ service.Budget_annuel }}</p>
+                    <p class="text-sm text-gray-500">Objectifs service: {{ service.objectifs_service }}</p>
+                </div>
+                <div class="space-x-2">
+                    <a href="{% url 'modifier_service' entreprise.id service.id %}" class="btn btn-primary btn-sm">Modifier</a>
+                    <a href="{% url 'supprimer_service' entreprise.id service.id %}" class="btn btn-error btn-sm">Supprimer</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Aucun service trouvé pour cette entreprise.</p>
+{% endif %}
+{% endblock %}
