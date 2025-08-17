@@ -4,23 +4,41 @@
   <h1 class="text-3xl font-bold mb-6">
       Créer une entreprise
   </h1>
-<form method="post" action="{% url 'creation_entreprise' %}", class="space-y-4 flex flex-col">
+<form method="post" action="{% url 'creation_entreprise' %}" class="space-y-4">
     {% csrf_token %}
-    {{ form.nom_entreprise }}
-    {{ form.adresse_siege }}
-    {{ form.code_postal}}
-    {{ form.ville }}
-    {{ form.pays }}
-    {{ form.telephone_entreprise }}
-    {{ form.email }}
-    {{ form.numero_siret }}
-    {{ form.code_naf }}
-    {{ form.forme_juridique }}
-    {{ form.secteur_activite }}
-    {{ form.nombre_employes }}
 
-    <button type="submit", class="btn btn-primary btn-soft ">Enregistrer</button>
-    <a href="{% url 'liste_employes' %}" class="btn btn-primary w-full">Annuler</a>  
-    
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">
+        <ul>
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% for field in form %}
+      <div class="form-control">
+        <label for="{{ field.id_for_label }}" class="label">
+          <span class="label-text">{{ field.label }}</span>
+        </label>
+        {{ field }}
+        {% if field.help_text %}
+          <div class="label">
+            <span class="label-text-alt">{{ field.help_text|safe }}</span>
+          </div>
+        {% endif %}
+        {% for error in field.errors %}
+          <div class="label">
+            <span class="label-text-alt text-error">{{ error }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    <div class="flex justify-end gap-4 pt-4">
+        <a href="{% url 'liste_employes' %}" class="btn">Annuler</a>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </div>
 </form>
 {% endblock %}

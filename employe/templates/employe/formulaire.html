@@ -1,6 +1,5 @@
 {% extends "employe/base.html" %}
 
-
 {% block content %}
 
   <h1 class="text-3xl font-bold mb-6">
@@ -25,7 +24,7 @@
     {% endif %}
 
     {% for field in form %}
-      <div class="form-control">
+      <div class="form-control" {% if field.name == 'poste_autre' %}style="display: none;"{% endif %}>
         <label for="{{ field.id_for_label }}" class="label">
           <span class="label-text">{{ field.label }}</span>
         </label>
@@ -44,9 +43,30 @@
     {% endfor %}
 
     <div class="flex justify-end gap-4 pt-4">
-        <a href="{% url 'login' %}" class="btn">Annuler</a>
+        <a href="{% url 'liste_employes' %}" class="btn">Annuler</a>
         <button type="submit" class="btn btn-primary">Enregistrer</button>
     </div>
   </form>
 
-{% endblock %} 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const posteSelect = document.getElementById('{{ form.poste.id_for_label }}');
+    const posteAutreField = document.getElementById('{{ form.poste_autre.id_for_label }}').closest('.form-control');
+
+    function togglePosteAutre() {
+      if (posteSelect.value === 'Autre') {
+        posteAutreField.style.display = 'block';
+      } else {
+        posteAutreField.style.display = 'none';
+      }
+    }
+
+    // Initial check
+    togglePosteAutre();
+
+    // Listener for changes
+    posteSelect.addEventListener('change', togglePosteAutre);
+  });
+</script>
+
+{% endblock %}

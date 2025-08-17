@@ -1,12 +1,45 @@
 {% extends 'employe/base_no_navbar.html' %}
 
 {% block content %}
-<form method="post" action="{% url 'login' %}", class="space-y-4 flex flex-col">
+<h1 class="text-4xl font-bold mb-6 text-center">Bienvenue sur gestPloided</h1>
+<h1 class="text-3xl font-bold mb-6 text-center">Connexion</h1>
+<form method="post" action="{% url 'login' %}" class="space-y-4 max-w-sm mx-auto">
     {% csrf_token %}
-    {{ form.username}}
-    {{ form.password }}
-    <button type="submit", class="btn btn-primary btn-soft ">Se connecter</button>
-    <a href="{% url 'inscription_employe_drh' %}" class="btn btn-primary w-full">S'inscrire</a>  
-    
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">
+        <ul>
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% for field in form %}
+      <div class="form-control">
+        <label for="{{ field.id_for_label }}" class="label">
+          <span class="label-text">{{ field.label }}</span>
+        </label>
+        {{ field }}
+        {% if field.help_text %}
+          <div class="label">
+            <span class="label-text-alt">{{ field.help_text|safe }}</span>
+          </div>
+        {% endif %}
+        {% for error in field.errors %}
+          <div class="label">
+            <span class="label-text-alt text-error">{{ error }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    <div class="flex flex-col gap-4 pt-4">
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+        <a href="{% url 'inscription_employe_drh' %}" class="btn btn-outline btn-primary">S'inscrire</a>
+    </div>
 </form>
 {% endblock %}
+
+{% block footer %}{% endblock %}

@@ -1,13 +1,18 @@
 {% extends "employe/base.html" %}
 
-
 {% block content %}
-<form method="POST" class="space-y-4 flex flex-col">
-    <span class="text-center">Confirmer la suppression de l'employé <strong>"{{ employe.nom }} {{ employe.prenom }}"</strong>?</span>
-    {% csrf_token %}
-
-    <button type="submit text-white-500" class="btn btn-error">Confirmer</button>
-    <a href="{% url 'liste_employes' %}" class="btn btn-primary w-full">Annuler</a>  
-
-</form>
-{% endblock %} 
+<div class="flex flex-col items-center justify-center">
+    <div class="bg-base-200 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4 text-center">Confirmer la suppression</h2>
+        <p class="text-center mb-6">Êtes-vous sûr de vouloir supprimer l'employé <strong>"{{ employe.nom }} {{ employe.prenom }}"</strong> ?</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="flex justify-center gap-4">
+                <a href="{% url 'liste_employes' %}" class="btn btn-neutral">Annuler</a>
+                <button type="submit" class="btn btn-error">Confirmer</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

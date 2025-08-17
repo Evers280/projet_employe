@@ -1,8 +1,57 @@
 {% extends 'entreprise/base.html' %}
 
 {% block content %}
-<div class="text-center">
-    <h1 class="text-4xl font-bold">Bienvenue sur Gest-Ploided</h1>
-    <p class="mt-4">Votre solution de gestion d'employés et d'entreprise.</p>
+<div class="text-white p-4">
+    {% if user.is_authenticated %}
+        {% if current_hour >= 5 and current_hour < 18 %}
+            <h1 class="text-4xl font-bold">Bonjour, {% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}!</h1>
+        {% else %}
+            <h1 class="text-4xl font-bold">Bonsoir, {% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}!</h1>
+        {% endif %}
+    {% endif %}
+</div>
+<div class="flex flex-col w-full bg-gray-900 text-white">
+    <!-- Main Section & Visual Zone -->
+    <div class="flex flex-grow items-center justify-center p-8 min-h-screen">
+        <!-- Section principale (Left) -->
+        <div class="flex-1 text-left pr-8">
+            <h1 class="text-6xl font-bold text-white mb-4">Bienvenue sur gestPloided</h1>
+            <h2 class="text-3xl text-gray-300 mb-6">Gérez vos équipes efficacement</h2>
+            <p class="text-lg text-gray-400 mb-8">
+                Avec gestPloided, centralisez toutes les informations de vos employés en un seul endroit.
+                Stocker, mettez à jour, ou encore Supprimer: tout est à portée de main.
+                Gagnez du temps, améliorez l’efficacité et concentrez-vous sur ce qui compte vraiment : la réussite de vos équipes.
+            </p>
+                        {% if not has_enterprise %}
+            <a href="{% url 'creation_entreprise' %}" class="btn bg-black text-white hover:bg-gray-800 border-none">Commencer ?</a>
+            {% endif %}
+        </div>
+
+        <!-- Zone visuelle (Right) -->
+        <div class="flex-1 bg-black w-max-1xl p-8 rounded-lg shadow-lg text-white-800">
+            <h3 class="text-2xl font-semibold mb-6">Système de conception</h3>
+
+            <!-- Checkmark Icons & Colored Circles -->
+            <div class="flex items-center mb-6">
+                <div class="flex items-start">
+                    <svg class="w-8 h-8 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-lg ">Fonctionnalité 1</span>
+                </div>
+               
+            </div>
+
+            <!-- Feature List -->
+            <ul class="list-disc list-inside mb-6">
+                <li class="text-lg mb-2">Gestion centralisée des employés</li>
+                <li class="text-lg mb-2">Mises à jour faciles</li>
+                <li class="text-lg">Suppression sécurisée des données</li>
+            </ul>
+
+        </div>
+    </div>
+
+    
 </div>
 {% endblock %}

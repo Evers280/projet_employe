@@ -2,6 +2,8 @@ from django import forms
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .posts import POSTES_PAR_SECTEUR
+from entreprise.models import services as ServicesEntreprise
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'input input-primary w-full', 'placeholder': "Nom d'utilisateur"}))
@@ -13,15 +15,17 @@ class DrhSignUpForm(UserCreationForm):
         model = User
         fields = UserCreationForm.Meta.fields + ('email',)
 
-
-
-
 class EmployeForm(forms.ModelForm):
-    
+    poste = forms.ChoiceField(
+        required=True,
+        widget=forms.Select(attrs={'class': 'select select-primary w-full'}),
+        label="Poste"
+    )
+    poste_autre = forms.CharField(required=False, label="Autre poste", widget=forms.TextInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Précisez le poste'}))
+
     class Meta:
         model = Employe
-        fields = ['nom', 'prenom', 'age', 'sexe', 'email', 'numero_telephone', 'poste', 'salaire', 'drh']
-        
+        fields = ['nom', 'prenom', 'age', 'sexe', 'email', 'numero_telephone', 'service', 'poste', 'salaire', 'drh']
         widgets = {
             'nom': forms.TextInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Nom'}),
             'prenom': forms.TextInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Prénom'}),
@@ -29,25 +33,34 @@ class EmployeForm(forms.ModelForm):
             'sexe': forms.Select(attrs={'class': 'select select-primary w-full'}),
             'email': forms.EmailInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Email'}),
             'numero_telephone': forms.TextInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Numéro de téléphone'}),
-            'poste': forms.TextInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Poste'}),
+            'service': forms.Select(attrs={'class': 'select select-primary w-full'}),
             'salaire': forms.NumberInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Salaire', 'min': '0','step': '0.01'}),
             'drh': forms.TextInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'DRH'})
         }
  
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        # Vérifie si un *autre* employé avec cet email existe déjà.
-        # On exclut l'instance actuelle (self.instance) de la requête.
-        if Employe.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
-            raise forms.ValidationError("Un autre employé utilise déjà cette adresse email.")
-        return email
-    
-    
     def __init__(self, *args, **kwargs):
-        # Récupère 'drh' des arguments mot-clé avant d'appeler super().__init__
         drh = kwargs.pop('drh', False)
+        entreprise = kwargs.pop('entreprise', None)
         super().__init__(*args, **kwargs)
-        
+
+        if entreprise:
+            self.fields['service'].queryset = ServicesEntreprise.objects.filter(entreprise=entreprise).all()
+
+            secteur = entreprise.secteur_activite
+            poste_choices = []
+            
+            secteur_services = POSTES_PAR_SECTEUR.get(secteur, {})
+            for service_name, postes in secteur_services.items():
+                poste_choices.append((service_name, [(poste, poste) for poste in postes]))
+
+            communs_services = POSTES_PAR_SECTEUR.get('Communs', {})
+            for service_name, postes in communs_services.items():
+                poste_choices.append((service_name, [(poste, poste) for poste in postes]))
+
+            self.fields['poste'].choices = [('', '---------')] + poste_choices + [('Autre', 'Autre')]
+        else:
+            self.fields['poste'].choices = [('Autre', 'Autre')]
+
         if drh:
             self.fields['password'] = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Mot de passe'}), required=True)
             self.fields['password_confirm'] = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Confirmer le mot de passe'}), required=True)
@@ -59,16 +72,28 @@ class EmployeForm(forms.ModelForm):
             if 'drh' in self.fields:
                 del self.fields['drh']
 
-    #méthode de validation personnalisée
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Employe.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Un autre employé utilise déjà cette adresse email.")
+        return email
+    
     def clean(self):
         cleaned_data = super().clean()
+        poste = cleaned_data.get('poste')
+        poste_autre = cleaned_data.get('poste_autre')
+
+        if poste == 'Autre':
+            if not poste_autre:
+                self.add_error('poste_autre', "Veuillez préciser le poste.")
+            else:
+                cleaned_data['poste'] = poste_autre
+        
         password = cleaned_data.get("password")
         password_confirm = cleaned_data.get("password_confirm")
 
-        # Vérifie que les deux champs existent si le formulaire est pour un DRH
         if password and password_confirm:
             if password != password_confirm:
-                # Lance une erreur si les mots de passe ne correspondent pas
                 raise forms.ValidationError(
                     "Les deux mots de passe ne correspondent pas."
                 )
@@ -88,6 +113,3 @@ class EmployeForm(forms.ModelForm):
         if commit:
             employe.save()
         return employe
-
-
-

@@ -1,13 +1,18 @@
 {% extends 'entreprise/base.html' %}
 
 {% block content %}
-
-    <form method="post" class="space-y-4 flex flex-col">
-        <h2>Confirmer la suppression de l'entreprise</h2>
-        <p>Êtes-vous sûr de vouloir supprimer l'entreprise <strong>"{{ entreprise.nom_entreprise }}"</strong> ?</p>
-        {% csrf_token %}
-        <button type="submit" class="btn btn-error">Supprimer</button>
-        <a href="{% url 'profile_entreprise' %}" class="btn btn-primary w-full">Annuler</a>
-    </form>
-
+<div class="flex flex-col items-center justify-center">
+    <div class="bg-black p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4 text-center">Confirmer la suppression</h2>
+        <p class="text-center mb-6">Êtes-vous sûr de vouloir supprimer l'entreprise <strong>"{{ entreprise.nom_entreprise }}"</strong> ?</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="flex justify-center gap-4">
+                <a href="{% url 'profile_entreprise' %}" class="btn btn-neutral">Annuler</a>
+                <button type="submit" class=" text-white btn btn-error">Confirmer</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

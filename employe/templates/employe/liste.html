@@ -10,29 +10,28 @@
     </div>
     <div class="space-y-4 w-full">
       {% for emp in employes%}
-        <div class="p-4 bg-base-100 rounded-lg w-full flex justify-between items-center"> 
+                <div class="p-4 bg-base-100 rounded-lg w-full flex flex-col sm:flex-row sm:justify-between items-center gap-4">
 
           <div class="space-y-2">
-            <p class="font-bold text-lg">{{emp.nom}}  {{emp.prenom}}</p>
-            <p class="text-sm text-gray-500">Âge: {{emp.age}} ans  - Sexe: {{emp.sexe}}</p>
-            <p class="btn btn-outline btn-primary">{{emp.email}} {{emp.telephone}}</p>
+            <p class="font-bold text-lg break-words">{{emp.nom}}  {{emp.prenom}}</p>
+            <p class="text-sm text-gray-500 break-words">Âge: {{emp.age}} ans  - Sexe: {{emp.sexe}}</p>
+            <p class="btn btn-outline btn-primary break-words">{{emp.email}} {{emp.telephone}}</p>
 
             <div class="flex gap-2">
-              <p class="btn btn-soft btn-primary">{{emp.poste}}</p>
-              <p class="btn btn-dash btn-primary">{{emp.salaire}} Fcfa</p>
+              <p class="btn btn-soft btn-primary break-words">{{emp.poste}}</p>
+              <p class="btn btn-dash btn-primary break-words">{{emp.salaire}} Fcfa</p>
             </div>
 
             <div class="text-sm text-gray-500">
-              <p>Date d'embauche: {{emp.date_embauche}}</p>
-              <p>DRH: {{emp.drh}}</p>
+              <p class="break-words">Date d'embauche: {{emp.date_embauche}}</p>
             </div>
 
           </div>
 
-          <div class="space-x-2">
+          <div class="flex flex-col sm:flex-row gap-2">
             <a href="{% url 'modifier_employe' emp.id %}" class="btn btn-primary btn-sm">Modifier</a>
             <a href="{% url 'supprimer_employe' emp.id %}" class="btn btn-primary btn-soft btn-sm">Supprimer</a>
-          </div> 
+          </div>
 
         </div>
       {% endfor %}
@@ -45,4 +44,4 @@
 </div>
 {% endif %}
 
-{% endblock %} 
+{% endblock %}
