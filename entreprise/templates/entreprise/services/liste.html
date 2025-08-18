@@ -2,6 +2,7 @@
 {% block main_content_classes %}mt-2 mb-2 w-3xl{% endblock %}
 
 {% block content %}
+{% if entreprise_existe %}
 <h2 class="text-2xl  w-max-3xl font-bold mb-4">Liste des services pour {{ entreprise.nom_entreprise }}</h2>
 <div class="mb-4">
     <a href="{% url 'creation_service' entreprise.id %}" class="btn btn-primary">Créer un nouveau service</a>
@@ -38,5 +39,11 @@
     </div>
 {% else %}
     <p>Aucun service trouvé pour cette entreprise.</p>
+{% endif %}
+{% else %}
+<div class="text-center">
+    <p>Aucun service trouvé, veuillez d'abord créer une entreprise.</p>
+    <a href="{% url 'creation_entreprise' %}" class="text-green-500">Créer une entreprise</a>
+</div>
 {% endif %}
 {% endblock %}

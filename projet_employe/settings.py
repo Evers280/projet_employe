@@ -50,24 +50,13 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework_simplejwt',
+    'drf_yasg',
     'employe',
     'entreprise',
 ]
 
 
-# Configure le REST Framework
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-}
 
-# Configure le JWT
-SIMPLE_JWT = {
-   "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1200),  # Durée de vie du token d'accès
-   "REFRESH_TOKEN_LIFETIME": timedelta(days=365),   # Durée de vie du token de rafraîchissement
-}
 
 
 MIDDLEWARE = [
