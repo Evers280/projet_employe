@@ -11,6 +11,9 @@ from entreprise.models import entreprises
 
 # Vue pour la page de connexion des utilisateurs
 def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     form = LoginForm()  # Instancie le formulaire de connexion
     message = ''        # Message d'erreur ou de succès
     if request.method == 'POST':
@@ -28,28 +31,6 @@ def login_page(request):
                 message = 'Identifiants invalides.' # Message en cas d'échec d'authentification
     # Affiche la page de connexion avec le formulaire et un message éventuel
     return render(request, 'employe/login.html', context={'form': form, 'message': message})
-
-# Vue pour l'inscription d'un employé avec le rôle de DRH
-def inscription_employe_drh(request):
-    est_drh = True # Indique que cet employé sera un DRH
-    
-    if request.method == 'POST':
-        # Crée une instance du formulaire EmployeForm avec les données POST
-        # Le paramètre `drh=est_drh` est passé au formulaire pour ajuster son comportement
-        form = EmployeForm(request.POST, drh=est_drh)
-        if form.is_valid():
-            employe = form.save(commit=False) # Sauvegarde l'employé sans le persister immédiatement
-            employe.drh = True # Définit explicitement l'employé comme DRH
-            employe.poste = "DRH" # Attribue le poste de DRH
-            employe.save() # Sauvegarde l'employé dans la base de données
-            login(request, employe.utilisateur) # Connecte l'utilisateur associé à l'employé
-            return redirect('home') # Redirige vers la page d'accueil
-    else:
-        # Affiche un formulaire vide pour l'inscription du DRH
-        form = EmployeForm(drh=est_drh)
-    
-    context = {'form': form}
-    return render(request, 'employe/inscription.html', context)
 
 # Vue pour l'inscription d'un employé avec le rôle de DRH
 def inscription_employe_drh(request):
@@ -128,7 +109,7 @@ def modifier_employe(request, id):
             # Redirige si l'entreprise n'est pas trouvée
             return redirect('home')
 
-    est_drh = False # Ce n'est pas un formulaire pour DRH
+    est_drh = employe.drh # Ce n'est pas un formulaire pour DRH
     if request.method == 'POST':
         # Crée une instance du formulaire EmployeForm avec les données POST et l'instance de l'employé
         form = EmployeForm(request.POST, instance=employe, drh=est_drh, entreprise=entreprise)

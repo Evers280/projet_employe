@@ -9,7 +9,7 @@
         <form method="POST">
             {% csrf_token %}
             <div class="flex justify-center gap-4">
-                <a href="{% url 'liste_services' entreprise.id %}" class="btn btn-neutral">Annuler</a>
+                <a href="{% url 'liste_services' %}" class="btn btn-neutral">Annuler</a>
                 <button type="submit" class="btn btn-error text-white">Confirmer</button>
             </div>
         </form>

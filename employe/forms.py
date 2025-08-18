@@ -42,7 +42,7 @@ class EmployeForm(forms.ModelForm):
     class Meta:
         model = Employe # Modèle associé à ce formulaire
         # Champs du modèle Employe à inclure dans le formulaire
-        fields = ['nom', 'prenom', 'age', 'sexe', 'email', 'numero_telephone', 'service', 'poste', 'salaire', 'drh']
+        fields = ['nom', 'prenom', 'age', 'sexe', 'email', 'numero_telephone', 'service', 'salaire', 'drh']
         # Widgets personnalisés pour les champs du formulaire afin d'appliquer des styles CSS
         widgets = {
             'nom': forms.TextInput(attrs={'class': 'input input-primary w-full', 'placeholder': 'Nom'}),
@@ -97,6 +97,8 @@ class EmployeForm(forms.ModelForm):
                 del self.fields['drh']
             if 'poste' in self.fields:
                 del self.fields['poste']
+            if 'poste_autre' in self.fields:
+                del self.fields['poste_autre']
             if 'service' in self.fields:
                 del self.fields['service']
         else:
