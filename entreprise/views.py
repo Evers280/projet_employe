@@ -131,7 +131,7 @@ def creation_service(request, entreprise_id):
             # Sauvegarde le service dans la base de données.
             service.save()
             # Redirige vers la liste des services de l'entreprise.
-            return redirect('liste_services')
+            return redirect(reverse('liste_services'))
     else:
         # Si la requête n'est pas POST, affiche un formulaire vide.
         form = ServiceForm()
@@ -153,7 +153,7 @@ def modifier_service(request, entreprise_id, service_id):
         # Si le formulaire est valide, sauvegarde les modifications.
         form.save()
         # Redirige vers la liste des services de l'entreprise.
-        return redirect('liste_services')
+        return redirect(reverse('liste_services'))
     
     # Rend la page de modification de service avec le formulaire, le service et l'entreprise.
     return render(request, 'entreprise/services/modifier.html', {'form': form, 'service': service, 'entreprise': entreprise})
@@ -170,7 +170,7 @@ def supprimer_service(request, entreprise_id, service_id):
         # Si la requête est de type POST, supprime le service.
         service.delete()
         # Redirige vers la liste des services de l'entreprise.
-        return redirect('liste_services')
+        return redirect(reverse('liste_services'))
     
     # Rend la page de confirmation de suppression de service.
     return render(request, 'entreprise/services/supprimer.html', {'service': service, 'entreprise': entreprise})  

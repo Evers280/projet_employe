@@ -1,28 +1,32 @@
 {% extends 'entreprise/base.html' %}
 
 {% block content %}
-<h2 class="text-2xl font-bold mb-4">Modifier le service</h2>
-<form method="post" class="space-y-6">
-    {% csrf_token %}
-    {% for field in form %}
-    <div class="form-control">
-        <label class="label">
-            <span class="label-text text-gray-600">{{ field.label }}</span>
-        </label>
-        {{ field }}
-        {% if field.help_text %}
-        <label class="label">
-            <span class="label-text-alt text-gray-400">{{ field.help_text }}</span>
-        </label>
-        {% endif %}
-        {% for error in field.errors %}
-        <label class="label">
-            <span class="label-text-alt text-red-500">{{ error }}</span>
-        </label>
+<div class="max-w-3xl mx-auto">
+    <h2 class="text-4xl font-bold mb-4">Modifier le service</h2>
+    <form method="post" class="space-y-6">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text text-gray-600">{{ field.label }}</span>
+            </label>
+            {{ field }}
+            {% if field.help_text %}
+            <label class="label">
+                <span class="label-text-alt text-gray-400">{{ field.help_text }}</span>
+            </label>
+            {% endif %}
+            {% for error in field.errors %}
+            <label class="label">
+                <span class="label-text-alt text-red-500">{{ error }}</span>
+            </label>
+            {% endfor %}
+        </div>
         {% endfor %}
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary mt-6">Enregistrer les modifications</button>
-    <a href="{% url 'liste_services' %}" class="btn btn-primary btn-soft mt-1 ml-4">Annuler</a>
-</form>
+        <div class="flex justify-end gap-4 pt-4">
+             <a href="{% url 'liste_services' %}" class="btn">Annuler</a>
+             <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
