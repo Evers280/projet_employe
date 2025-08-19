@@ -32,11 +32,11 @@ SECRET_KEY = os.getenv('DJANGO_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # Pour le développement, il est fortement recommandé de mettre DEBUG = True
 # pour obtenir des pages d'erreur détaillées. Mettez-le à False en production.
-DEBUG = True
+DEBUG = False
 
 # En développement, ['*'] est acceptable. En production, vous devriez lister
 # explicitement vos domaines autorisés. Par exemple : ['mon-domaine.com']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['gestploided.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
